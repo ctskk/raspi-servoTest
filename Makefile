@@ -1,6 +1,6 @@
 CPP = g++
 INCLUDE = -I./
-LIBS = -lncurses -lwiringPi
+LIBS = -lwiringPi
 CPPFLAGS = -O3 $(INCLUDE) $(LIBS)
 TARGET = servo
 
