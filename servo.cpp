@@ -15,6 +15,7 @@ int main()
 
   while (true) {
     int num;
+    std::cout << "input number." << std::endl;
     std::cin >> num;
 
     if (num == -1) {
