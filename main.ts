@@ -2,7 +2,7 @@ import express  = require('express');
 import http     = require('http');
 import io       = require('socket.io');
 import path     = require('path');
-//import wiringpi = require('wiringpi');
+import wiringpi = require('wiringpi');
 
 var app = express();
 
@@ -20,18 +20,23 @@ var server = http.createServer(app).listen(app.get('port'), function() {
 
 //WebSocketの生成;
 var websocket = io.listen(server);
-/*
-//WiringPiの初期化
-wiringpi.pinMode(18, wiringpi.PWM_OUTPUT);
-wiringpi.pwmSetMode(wiringpi.PWM_MODE_MS);
-wiringpi.pwmSetClock(400);
-wiringpi.pwmSetRange(1024);
-*/
+
 //接続ソケット管理用配列
 var sockets = {};
 
 //サーボの初期角度
 var servo_angle : number = 0;
+
+//サーボ制御用GPIO PIN番号
+let PIN_NUMBER : number = 18;
+
+//*
+//WiringPiの初期化
+wiringpi.pinMode(PIN_NUMBER, wiringpi.PWM_OUTPUT);
+wiringpi.pwmSetMode(wiringpi.PWM_MODE_MS);
+wiringpi.pwmSetClock(400);
+wiringpi.pwmSetRange(1024);
+//*/
 
 //クライアントからSocket接続があった場合の処理
 websocket.on('connection', function(socket) {
@@ -49,31 +54,45 @@ websocket.on('connection', function(socket) {
     //startメッセージの処理
     socket.on('start', function() {
         servo_angle = 0;
+        setServoAngle(0);
         ack(websocket, servo_angle);
     });
 
     //stopメッセージの処理
     socket.on('stop', function() {
         servo_angle = 0;
+        setServoAngle(0);
         ack(websocket, servo_angle);
     });
 
     //setメッセージの処理
     socket.on('set', function(angle) {
         servo_angle = angle;
+        setServoAngle(servo_angle);
         ack(websocket, servo_angle);
     });
 
     //moveメッセージの処理
     socket.on('move', function(angle) {
         servo_angle += angle;
+        setServoAngle(servo_angle);
         ack(websocket, servo_angle);
     });
 
 });
 
+//サーボ角度を設定する
+function setServoAngle(angle : number) {
+    const st =  15;
+    const ed = 120;
+    let step = ((ed - st) / 180) * 180;
+    var num : number = st + step;
+    console.log('[SRV] STP:' + num);
+    wiringpi.pwmWrite(PIN_NUMBER, num);
+}
+
 //ACK処理
-function ack(io, angle : number) {
+function ack(io, angle : number) : void {
     console.log('[SRV] ACK:' + angle);
     io.sockets.emit('ack', angle);
 }
