@@ -2,7 +2,7 @@ import express  = require('express');
 import http     = require('http');
 import io       = require('socket.io');
 import path     = require('path');
-import wiringpi = require('wiringpi');
+import wiringpi = require('wiring-pi');
 
 var app = express();
 
@@ -85,7 +85,7 @@ websocket.on('connection', function(socket) {
 function setServoAngle(angle : number) {
     const st =  15;
     const ed = 120;
-    let step = ((ed - st) / 180) * 180;
+    let step = Math.ceil(((ed - st) / 180) * angle);
     var num : number = st + step;
     console.log('[SRV] STP:' + num);
     wiringpi.pwmWrite(PIN_NUMBER, num);

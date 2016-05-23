@@ -1,4 +1,4 @@
-declare module "wiringpi" {
+declare module "wiring-pi" {
     const PWM_OUTPUT : number;
     const PWM_MODE_MS : number;
     function pinMode(pin : number, mode : number);
