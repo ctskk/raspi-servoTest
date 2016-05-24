@@ -32,6 +32,14 @@ let PIN_NUMBER : number = 18;
 
 //*
 //WiringPiの初期化
+if(wiringpi.wiringPiSetupGpio() == -1)
+{
+    console.log("[SRV] Setup error.");
+}
+else
+{
+    console.log("[SRV] GPIO setup ok.");
+}
 wiringpi.pinMode(PIN_NUMBER, wiringpi.PWM_OUTPUT);
 wiringpi.pwmSetMode(wiringpi.PWM_MODE_MS);
 wiringpi.pwmSetClock(400);
