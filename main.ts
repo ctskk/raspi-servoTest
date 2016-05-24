@@ -91,8 +91,8 @@ websocket.on('connection', function(socket) {
 
 //サーボ角度を設定する
 function setServoAngle(angle : number) {
-    const st =  15;
-    const ed = 120;
+    const st =  35;
+    const ed = 125;
     let step = Math.ceil(((ed - st) / 180) * angle);
     var num : number = st + step;
     console.log('[SRV] STP:' + num);
