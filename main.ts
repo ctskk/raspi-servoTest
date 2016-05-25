@@ -2,7 +2,7 @@ import express  = require('express');
 import http     = require('http');
 import io       = require('socket.io');
 import path     = require('path');
-import wiringpi = require('wiring-pi');
+import Servo    = require('./Servo');
 
 var app = express();
 
@@ -25,7 +25,7 @@ var websocket = io.listen(server);
 var sockets = {};
 
 //サーボクラスの初期化
-var servo : Servo = new Servo();
+var servo = new Servo.Servo();
 
 //クライアントからSocket接続があった場合の処理
 websocket.on('connection', function(socket) {
@@ -72,56 +72,3 @@ function ack() : void {
     websocket.sockets.emit('ack', servo.angle);
 }
 
-/**
- * サーボ制御クラス
- */
-class Servo {
-    
-    //GPIO制御用に使用するPIN番号
-    private pinNumber : number;
-    //サーボ角度
-    private servo_angle : number;
-    
-    //コンストラクタ
-    constructor(pinNumber : number = 18, clock : number = 400, range : number = 1024) {
-        
-        this.pinNumber = pinNumber;
-        this.servo_angle = 0;
-        
-        //WiringPiの初期化
-        if(wiringpi.wiringPiSetupGpio() == -1)
-        {
-            console.log("[SRV] Setup error.");
-        }
-        else
-        {
-            console.log("[SRV] GPIO setup ok.");
-        }
-        wiringpi.pinMode(this.pinNumber, wiringpi.PWM_OUTPUT);
-        wiringpi.pwmSetMode(wiringpi.PWM_MODE_MS);
-        wiringpi.pwmSetClock(clock);
-        wiringpi.pwmSetRange(range);
-    }
-    
-    get angle() : number { return this.servo_angle; }
-    
-    //サーボ角度を増減させる
-    public addServoAngle(angle : number) : void {
-        var newVal : number = this.servo_angle += angle;
-        if (newVal <   0) { this.servo_angle =   0; }
-        if (newVal > 180) { this.servo_angle = 180; }
-        this.setServoAngle(newVal);
-    }
-    
-    //サーボ角度を設定する
-    public setServoAngle(angle : number) : void {
-        this.servo_angle = angle;
-        const st =  35;
-        const ed = 118;
-        let step = Math.ceil(((ed - st) / 180) * this.servo_angle);
-        var num : number = st + step;
-        console.log('[SRV] STP:' + num);
-        wiringpi.pwmWrite(this.pinNumber, num);
-    }
-
-}
