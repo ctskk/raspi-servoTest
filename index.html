@@ -31,19 +31,31 @@
 
   //WebSocketを開く（デフォルトURLで開く）
   var socket = io();
+  
+  //傾きでの角度検出保持用
+  var dy_angle = 0;
+  var id = 0;
+  
+  function setAngle() {
+    socket.emit('set', dy_angle);
+    id = setTimeout(250, setAngle);
+  }
 
   //イベント受信時の関数テンプレート。
   socket.on('xxxxx', function(data) {
+    ////
   });
 
   //開始
   function start() {
     socket.emit('start');
+    id = setTimeout(250, setAngle);
   }
 
   //停止
   function stop() {
     socket.emit('stop');
+    clearTimeout(id);
   }
   
   //角度セット
@@ -59,11 +71,14 @@
   //加速度検出
   window.addEventListener("devicemotion", function(ev){
     var dx = ev.accelerationIncludingGravity.x;
-        dy = ev.accelerationIncludingGravity.y;
-        dz = ev.accelerationIncludingGravity.z;
+    var dy = ev.accelerationIncludingGravity.y;
+    var dz = ev.accelerationIncludingGravity.z;
     $("#x").text('acc X:' + Math.floor(dx*10));
     $("#y").text('acc Y:' + Math.floor(dy*10));
     $("#z").text('acc Z:' + Math.floor(dz*10));
+    
+    //+-45度位（90度角）を0-180度に倍化・補正する
+    dy_angle = (-dy) * 2 + 90;
   });
   
   //回転量検出
