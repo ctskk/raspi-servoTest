@@ -31,13 +31,14 @@ export class Servo {
         wiringpi.pwmSetRange(range);
     }
     
+    //サーボ角度
     get angle() : number { return this.servo_angle; }
     
     //サーボ角度を増減させる
     public addServoAngle(angle : number) : void {
         var newVal : number = this.servo_angle += angle;
-        if (newVal <   0) { this.servo_angle =   0; }
-        if (newVal > 180) { this.servo_angle = 180; }
+        if (newVal <   0) { newVal =   0; }
+        if (newVal > 180) { newVal = 180; }
         this.setServoAngle(newVal);
     }
     
