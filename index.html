@@ -38,7 +38,7 @@
   
   function setAngle() {
     socket.emit('set', dy_angle);
-    id = setTimeout(setAngle, 250);
+    id = setTimeout(setAngle, 100);
   }
 
   //イベント受信時の関数テンプレート。
@@ -49,7 +49,7 @@
   //開始
   function start() {
     socket.emit('start');
-    id = setTimeout(setAngle, 250);
+    id = setTimeout(setAngle, 100);
   }
 
   //停止
@@ -78,7 +78,7 @@
     $("#z").text('acc Z:' + Math.floor(dz*10));
     
     //+-45度位（90度角）を0-180度に倍化・補正する
-    dy_angle = (-dy) * 2 + 90;
+    dy_angle = (-Math.floor(dy*10)) * 2 + 90;
   });
   
   //回転量検出
