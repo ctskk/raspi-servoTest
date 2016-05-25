@@ -37,14 +37,16 @@ export class Servo {
     //サーボ角度を増減させる
     public addServoAngle(angle : number) : void {
         var newVal : number = this.servo_angle += angle;
-        if (newVal <   0) { newVal =   0; }
-        if (newVal > 180) { newVal = 180; }
         this.setServoAngle(newVal);
     }
     
     //サーボ角度を設定する
     public setServoAngle(angle : number) : void {
-        this.servo_angle = angle;
+        var newVal = angle;
+        if (newVal <   0) { newVal =   0; }
+        if (newVal > 180) { newVal = 180; }
+        this.servo_angle = newVal;
+
         const st =  35;
         const ed = 118;
         let step = Math.ceil(((ed - st) / 180) * this.servo_angle);
