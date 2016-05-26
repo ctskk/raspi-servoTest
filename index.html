@@ -33,11 +33,11 @@
   var socket = io();
   
   //傾きでの角度検出保持用
-  var dy_angle = 0;
+  var beta_angle = 0;
   var id = 0;
   
   function setAngle() {
-    socket.emit('set', dy_angle);
+    socket.emit('set', beta_angle);
     id = setTimeout(setAngle, 100);
   }
 
@@ -68,7 +68,7 @@
     socket.emit('move', angle);
   }
 
-  //加速度検出
+  //加速度検出（何もしなくても重力加速度が掛かる）
   window.addEventListener("devicemotion", function(ev){
     var dx = ev.accelerationIncludingGravity.x;
     var dy = ev.accelerationIncludingGravity.y;
@@ -76,11 +76,8 @@
     $("#x").text('acc X:' + Math.floor(dx*10));
     $("#y").text('acc Y:' + Math.floor(dy*10));
     $("#z").text('acc Z:' + Math.floor(dz*10));
-    
-    //+-45度位（90度角）を0-180度に倍化・補正する
-    dy_angle = (-Math.floor(dy*10)) * 2 + 90;
   });
-  
+
   //回転量検出
   window.addEventListener("deviceorientation", function(ev) {
     var alpha = ev.alpha;   // z-axis
@@ -89,6 +86,9 @@
     $("#a").text('alpha(z):' + Math.floor(alpha));
     $("#b").text('beta (x):' + Math.floor(beta ));
     $("#g").text('gamma(y):' + Math.floor(gamma));
+
+    //+-45度位（90度角）を0-180度に倍化・補正する
+    beta_angle = (Math.floor(beta)) * 2 + 90;
   });
   </script>
 </head>
