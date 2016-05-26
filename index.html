@@ -38,7 +38,7 @@
   
   function setAngle() {
     socket.emit('set', beta_angle);
-    id = setTimeout(setAngle, 100);
+    id = setTimeout(setAngle, 50);
   }
 
   //イベント受信時の関数テンプレート。
@@ -49,7 +49,7 @@
   //開始
   function start() {
     socket.emit('start');
-    id = setTimeout(setAngle, 100);
+    id = setTimeout(setAngle, 50);
   }
 
   //停止
