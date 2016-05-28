@@ -59,14 +59,14 @@ websocket.on('connection', function(socket) {
         ack(servo_pan.angle);
     });
 
-    //setメッセージの処理
-    socket.on('set', function(angle) {
+    //set_tiltメッセージの処理
+    socket.on('set_tilt', function(angle) {
         servo_tilt.setServoAngle(angle);
         ack(servo_tilt.angle);
     });
 
-    //moveメッセージの処理
-    socket.on('move', function(angle) {
+    //move_tileメッセージの処理
+    socket.on('move_tilt', function(angle) {
         servo_tilt.addServoAngle(angle);
         ack(servo_tilt.angle);
     });

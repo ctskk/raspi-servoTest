@@ -39,7 +39,7 @@
   
   function setAngle() {
     socket.emit('set_pan', x_angle);
-    socket.emit('set',     z_angle);
+    socket.emit('set_tilt',z_angle);
     id = setTimeout(setAngle, 50);
   }
 
@@ -62,12 +62,12 @@
   
   //角度セット
   function set(angle) {
-    socket.emit('set', angle);
+    socket.emit('set_tilt', angle);
   }
 
   //サーボ移動
   function move(angle) {
-    socket.emit('move', angle);
+    socket.emit('move_tilt', angle);
   }
 
   //加速度検出（何もしなくても重力加速度が掛かる）
@@ -90,8 +90,8 @@
     $("#g").text('gamma(y):' + Math.floor(gamma));
 
     //+-45度位（90度角）を0-180度に倍化・補正する
-    x_angle = (Math.floor(beta )) * 2 + 90;
-    z_angle = (Math.floor(gamma)) * 2 + 90;
+    x_angle = -(Math.floor(beta )) * 2 + 90;
+    z_angle = -(Math.floor(gamma)) * 2 + 90;
   });
   </script>
 </head>
