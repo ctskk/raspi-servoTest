@@ -44,38 +44,38 @@ websocket.on('connection', function(socket) {
     //startメッセージの処理
     socket.on('start', function() {
         servo_pan.setServoAngle(0);
-        ack();
+        ack(servo_pan.angle);
     });
 
     //stopメッセージの処理
     socket.on('stop', function() {
         servo_pan.setServoAngle(180);
-        ack();
+        ack(servo_pan.angle);
     });
 
     //set_panメッセージの処理
     socket.on('set_pan', function(angle) {
         servo_pan.setServoAngle(angle);
-        ack();
+        ack(servo_pan.angle);
     });
 
     //setメッセージの処理
     socket.on('set', function(angle) {
         servo_tilt.setServoAngle(angle);
-        ack();
+        ack(servo_tilt.angle);
     });
 
     //moveメッセージの処理
     socket.on('move', function(angle) {
         servo_tilt.addServoAngle(angle);
-        ack();
+        ack(servo_tilt.angle);
     });
 
 });
 
 //ACK処理
-function ack() : void {
-    console.log('[SRV] ACK:' + servo_tilt.angle);
-    websocket.sockets.emit('ack', servo_tilt.angle);
+function ack(angle : number) : void {
+    console.log('[SRV] ACK:' + angle);
+    websocket.sockets.emit('ack', angle);
 }
 

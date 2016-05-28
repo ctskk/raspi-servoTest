@@ -4,6 +4,8 @@ import wiringpi = require('wiring-pi');
  * サーボ制御クラス
  */
 export class Servo {
+
+    private static wiringPi_initialized : boolean = false;
     
     //GPIO制御用に使用するPIN番号
     private pinNumber : number;
@@ -20,18 +22,21 @@ export class Servo {
         this.servo_angle = 0;
         
         //WiringPiの初期化
-        if(wiringpi.wiringPiSetupGpio() == -1)
+        if(Servo.wiringPi_initialized != true && wiringpi.wiringPiSetupGpio() == -1)
         {
-            console.log("[SRV:"+this.pinNumber+"] Setup error.");
+            console.log("[SRV] Setup error.");
+            Servo.wiringPi_initialized = false;
         }
         else
         {
-            console.log("[SRV:"+this.pinNumber+"] GPIO setup ok.");
+            console.log("[SRV] GPIO setup ok.");
+            wiringpi.pwmSetMode(wiringpi.PWM_MODE_MS);
+            wiringpi.pwmSetClock(clock);
+            wiringpi.pwmSetRange(range);
+            Servo.wiringPi_initialized = true;
         }
         wiringpi.pinMode(this.pinNumber, wiringpi.PWM_OUTPUT);
-        wiringpi.pwmSetMode(wiringpi.PWM_MODE_MS);
-        wiringpi.pwmSetClock(clock);
-        wiringpi.pwmSetRange(range);
+        console.log("[SRV:"+this.pinNumber+"] initialized.");
     }
     
     //サーボ角度
