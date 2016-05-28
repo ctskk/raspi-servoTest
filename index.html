@@ -37,7 +37,7 @@
   var id = 0;
   
   function setAngle() {
-    socket.emit('set', beta_angle);
+    socket.emit('set_pan', beta_angle);
     id = setTimeout(setAngle, 50);
   }
 

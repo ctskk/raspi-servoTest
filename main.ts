@@ -25,7 +25,7 @@ var websocket = io.listen(server);
 var sockets = {};
 
 //サーボクラスの初期化
-var servo_tilt = new Servo.Servo(18, 5);
+var servo_tilt = new Servo.Servo(18, 8/*サーボ組付時の補正値*/);
 var servo_pan  = new Servo.Servo(23);
 
 //クライアントからSocket接続があった場合の処理
@@ -50,6 +50,12 @@ websocket.on('connection', function(socket) {
     //stopメッセージの処理
     socket.on('stop', function() {
         servo_pan.setServoAngle(180);
+        ack();
+    });
+
+    //set_panメッセージの処理
+    socket.on('set_pan', function(angle) {
+        servo_pan.setServoAngle(angle);
         ack();
     });
 

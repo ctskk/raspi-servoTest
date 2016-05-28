@@ -54,7 +54,7 @@ export class Servo {
         const ed = 118;
         let step = Math.ceil(((ed - st) / 180) * (this.servo_angle + this.adjust_angle));
         var num : number = st + step;
-        console.log('[SRV:"+this.pinNumber+"] STP:' + num);
+        console.log("[SRV:"+this.pinNumber+"] STP:" + num);
         wiringpi.pwmWrite(this.pinNumber, num);
     }
 
