@@ -22,11 +22,11 @@ export class Servo {
         //WiringPiの初期化
         if(wiringpi.wiringPiSetupGpio() == -1)
         {
-            console.log("[SRV] Setup error.");
+            console.log("[SRV:"+this.pinNumber+"] Setup error.");
         }
         else
         {
-            console.log("[SRV] GPIO setup ok.");
+            console.log("[SRV:"+this.pinNumber+"] GPIO setup ok.");
         }
         wiringpi.pinMode(this.pinNumber, wiringpi.PWM_OUTPUT);
         wiringpi.pwmSetMode(wiringpi.PWM_MODE_MS);
@@ -54,7 +54,7 @@ export class Servo {
         const ed = 118;
         let step = Math.ceil(((ed - st) / 180) * (this.servo_angle + this.adjust_angle));
         var num : number = st + step;
-        console.log('[SRV] STP:' + num);
+        console.log('[SRV:"+this.pinNumber+"] STP:' + num);
         wiringpi.pwmWrite(this.pinNumber, num);
     }
 

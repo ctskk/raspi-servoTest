@@ -25,7 +25,7 @@ var websocket = io.listen(server);
 var sockets = {};
 
 //サーボクラスの初期化
-var servo_tilt = new Servo.Servo(18);
+var servo_tilt = new Servo.Servo(18, 5);
 var servo_pan  = new Servo.Servo(23);
 
 //クライアントからSocket接続があった場合の処理
