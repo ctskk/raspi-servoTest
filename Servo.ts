@@ -9,11 +9,14 @@ export class Servo {
     private pinNumber : number;
     //サーボ角度
     private servo_angle : number;
+    //角度補正値
+    private adjust_angle : number;
     
     //コンストラクタ
-    constructor(pinNumber : number = 18, clock : number = 400, range : number = 1024) {
+    constructor(pinNumber : number, adjust_angle : number = 0, clock : number = 400, range : number = 1024) {
         
         this.pinNumber = pinNumber;
+        this.adjust_angle = adjust_angle;
         this.servo_angle = 0;
         
         //WiringPiの初期化
@@ -49,7 +52,7 @@ export class Servo {
 
         const st =  35;
         const ed = 118;
-        let step = Math.ceil(((ed - st) / 180) * this.servo_angle);
+        let step = Math.ceil(((ed - st) / 180) * (this.servo_angle + this.adjust_angle));
         var num : number = st + step;
         console.log('[SRV] STP:' + num);
         wiringpi.pwmWrite(this.pinNumber, num);
