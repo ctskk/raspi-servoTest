@@ -33,11 +33,13 @@
   var socket = io();
   
   //傾きでの角度検出保持用
-  var beta_angle = 0;
+  var x_angle =  0;
+  var z_angle = 90;
   var id = 0;
   
   function setAngle() {
-    socket.emit('set_pan', beta_angle);
+    socket.emit('set_pan', x_angle);
+    socket.emit('set',     z_angle);
     id = setTimeout(setAngle, 50);
   }
 
@@ -88,7 +90,8 @@
     $("#g").text('gamma(y):' + Math.floor(gamma));
 
     //+-45度位（90度角）を0-180度に倍化・補正する
-    beta_angle = (Math.floor(beta)) * 2 + 90;
+    x_angle = (Math.floor(beta )) * 2 + 90;
+    z_angle = (Math.floor(gamma)) * 2 + 90;
   });
   </script>
 </head>

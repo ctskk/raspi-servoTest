@@ -25,8 +25,8 @@ var websocket = io.listen(server);
 var sockets = {};
 
 //サーボクラスの初期化
-var servo_tilt = new Servo.Servo(18, 8/*サーボ組付時の補正値*/);
-var servo_pan  = new Servo.Servo(23);
+var servo_tilt = new Servo.Servo(19, 0/*サーボ組付時の補正値*/);
+var servo_pan  = new Servo.Servo(18, 0/*サーボ組付時の補正値*/);
 
 //クライアントからSocket接続があった場合の処理
 websocket.on('connection', function(socket) {

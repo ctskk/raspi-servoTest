@@ -22,7 +22,7 @@ export class Servo {
         this.servo_angle = 0;
         
         //WiringPiの初期化
-        if(Servo.wiringPi_initialized != true && wiringpi.wiringPiSetupGpio() == -1)
+        if(/*Servo.wiringPi_initialized != true && */wiringpi.wiringPiSetupGpio() == -1)
         {
             console.log("[SRV] Setup error.");
             Servo.wiringPi_initialized = false;
@@ -30,12 +30,12 @@ export class Servo {
         else
         {
             console.log("[SRV] GPIO setup ok.");
+            wiringpi.pinMode(this.pinNumber, wiringpi.PWM_OUTPUT);
             wiringpi.pwmSetMode(wiringpi.PWM_MODE_MS);
             wiringpi.pwmSetClock(clock);
             wiringpi.pwmSetRange(range);
             Servo.wiringPi_initialized = true;
         }
-        wiringpi.pinMode(this.pinNumber, wiringpi.PWM_OUTPUT);
         console.log("[SRV:"+this.pinNumber+"] initialized.");
     }
     
