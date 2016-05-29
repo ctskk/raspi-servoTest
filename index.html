@@ -33,7 +33,7 @@
   var socket = io();
   
   //傾きでの角度検出保持用
-  var x_angle =  0;
+  var x_angle = 90;
   var z_angle = 90;
   var id = 0;
   
@@ -90,7 +90,7 @@
     $("#g").text('gamma(y):' + Math.floor(gamma));
 
     //+-45度位（90度角）を0-180度に倍化・補正する
-    x_angle = -(Math.floor(beta )) * 2 + 90;
+    x_angle = -(Math.floor(beta )) * 2 + 180;
     z_angle = -(Math.floor(gamma)) * 2 + 90;
   });
   </script>
@@ -123,19 +123,19 @@
         <span class="glyphicon glyphicon-arrow-up"/>
       </button>
       <!-- 左旋回 -->
-      <button type="button" class="btn btn-default btn-lg col-xs-2 col-sm-2" onclick="move(-30)">
+      <button type="button" class="btn btn-default btn-lg col-xs-2 col-sm-2" onclick="move(30)">
         <span class="glyphicon glyphicon-chevron-left"/>
       </button>
       <!-- 左回転 -->
-      <button type="button" class="btn btn-default btn-lg col-xs-2 col-sm-2" onclick="move(-10)">
+      <button type="button" class="btn btn-default btn-lg col-xs-2 col-sm-2" onclick="move(10)">
         <span class="glyphicon glyphicon-circle-arrow-left"/>
       </button>
       <!-- 右回転 -->
-      <button type="button" class="btn btn-default btn-lg col-xs-2 col-sm-2" onclick="move(10)">
+      <button type="button" class="btn btn-default btn-lg col-xs-2 col-sm-2" onclick="move(-10)">
         <span class="glyphicon glyphicon-circle-arrow-right"/>
       </button>
       <!-- 右旋回 -->
-      <button type="button" class="btn btn-default btn-lg col-xs-2 col-sm-2" onclick="move(30)">
+      <button type="button" class="btn btn-default btn-lg col-xs-2 col-sm-2" onclick="move(-30)">
         <span class="glyphicon glyphicon-chevron-right"/>
       </button>
       <!-- 後退 -->
