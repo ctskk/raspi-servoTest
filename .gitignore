@@ -1,4 +1,8 @@
 node_modules/
-typings/
 docs/
-*.js
+out/*.js
+out/*.js.map
+*.log
+*.bak
+.DS_Store
+package-lock.json
