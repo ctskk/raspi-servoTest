@@ -1,7 +1,8 @@
 import * as path from 'path';
-import * as http from 'http';
+import * as https from 'https';
 import * as socketIo from 'socket.io';
 import * as express from 'express';
+import * as fs from 'fs';
 import {Servo} from './Servo';
 
 const app = express();
@@ -10,12 +11,18 @@ const io = socketIo();
 //Node.jsの起動PathをHTTPのルートフォルダとして設定する。
 app.use('/', express.static(path.join(__dirname, 'stream')));
 //ルートディレクトリへのHTTPリクエストがきたら、index.htmlへのPathを返す。
-app.get('/', function(req, res) { res.sendFile(__dirname + '/index.html'); });
+app.get('/', function(req, res) {
+	res.sendFile(__dirname + '/index.html');
+});
 //使用するポート番号の設定
-app.set('port', process.env.PORT || 3000);
+app.set('port', process.env.PORT || 443);
 
-//HTTPサーバーとして動作開始する。
-const server = http.createServer(app).listen(app.get('port'), function() {
+//HTTPSサーバーとして動作開始する。
+const options = {
+  key:  fs.readFileSync('./server.key'),
+  cert: fs.readFileSync('./server.crt')
+};
+const server = https.createServer(options, app).listen(app.get('port'), function() {
 	console.log('listening on *:' + app.get('port'));
 });
 
@@ -72,6 +79,9 @@ websocket.on('connection', function(socket) {
 		ack(servo_tilt.angle);
 	});
 
+	socket.on('log', function(str) {
+		console.log(str);
+	});
 });
 
 //ACK処理

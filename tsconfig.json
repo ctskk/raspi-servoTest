@@ -3,7 +3,7 @@
         "sourceRoot": "./src",
         "outDir": "./out",
         "module": "commonjs",
-        "target": "es2017",
+        "target": "ES2015",
         "sourceMap": true,
         "inlineSourceMap": false,
         "listFiles" : true,
